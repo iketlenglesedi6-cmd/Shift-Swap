@@ -1,0 +1,69 @@
+@baseUrl = http://localhost:3000
+@shiftId = REPLACE_WITH_FIRST_SHIFT_ID
+@requestedShiftId = REPLACE_WITH_SECOND_SHIFT_ID
+@swapId = REPLACE_WITH_SWAP_ID
+
+### API status
+GET {{baseUrl}}/
+
+### Swagger documentation
+GET {{baseUrl}}/api-docs
+
+### Create a first shift
+POST {{baseUrl}}/api/shifts
+Content-Type: application/json
+
+{
+  "employeeName": "Amina Patel",
+  "employeeEmail": "amina@example.com",
+  "role": "Registered Nurse",
+  "department": "Emergency",
+  "shiftDate": "2026-12-10",
+  "startTime": "07:00",
+  "endTime": "15:00",
+  "location": "Main Hospital",
+  "isSwappable": true,
+  "notes": "Happy to trade for an evening shift."
+}
+
+### List shifts
+GET {{baseUrl}}/api/shifts?swappable=true
+
+### Update a shift
+PUT {{baseUrl}}/api/shifts/{{shiftId}}
+Content-Type: application/json
+
+{
+  "employeeName": "Amina Patel",
+  "employeeEmail": "amina@example.com",
+  "role": "Registered Nurse",
+  "department": "Emergency",
+  "shiftDate": "2026-12-10",
+  "startTime": "07:00",
+  "endTime": "15:00",
+  "location": "Main Hospital",
+  "isSwappable": true,
+  "notes": "Available for an evening trade."
+}
+
+### Create a swap request (create a second shift first)
+POST {{baseUrl}}/api/swaps
+Content-Type: application/json
+
+{
+  "offeredShiftId": "{{shiftId}}",
+  "requestedShiftId": "{{requestedShiftId}}",
+  "requesterName": "Amina Patel",
+  "requesterEmail": "amina@example.com",
+  "recipientName": "Jon Kim",
+  "recipientEmail": "jon@example.com",
+  "reason": "Medical appointment.",
+  "context": "I can cover a weekend shift next month.",
+  "urgency": "normal"
+}
+
+### List swap requests
+GET {{baseUrl}}/api/swaps?status=proposed
+
+### Delete a swap request
+DELETE {{baseUrl}}/api/swaps/{{swapId}}
