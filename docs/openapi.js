@@ -18,7 +18,10 @@ const id = { name: 'id', in: 'path', required: true, schema: { type: 'string' } 
 const basicResponses = { '400': { description: 'Invalid input' }, '404': { description: 'Resource not found' }, '500': { description: 'Unexpected server error' } }
 module.exports = {
   openapi: '3.0.3', info: { title: 'Shift Swap Exchange API', version: '1.0.0', description: 'A human-centered API for proposing and managing workplace shift swaps.' },
-  servers: [{ url: 'http://localhost:3000', description: 'Local server' }],
+  servers: [
+    { url: 'https://shift-swap-6vpe.onrender.com', description: 'Production Render server' },
+    { url: 'http://localhost:3000', description: 'Local development server' }
+  ],
   paths: {
     '/api/shifts': { get: { tags: ['Shifts'], summary: 'List shifts', parameters: [{ name: 'department', in: 'query', schema: { type: 'string' } }, { name: 'employeeEmail', in: 'query', schema: { type: 'string' } }, { name: 'swappable', in: 'query', schema: { type: 'boolean' } }], responses: { '200': { description: 'Shift list' }, '400': basicResponses['400'], '500': basicResponses['500'] } }, post: { tags: ['Shifts'], summary: 'Create a shift', requestBody: { required: true, content: { 'application/json': { schema: shift } } }, responses: { '201': { description: 'Shift created' }, ...basicResponses } } },
     '/api/shifts/{id}': { get: { tags: ['Shifts'], summary: 'Get one shift', parameters: [id], responses: { '200': { description: 'Shift' }, ...basicResponses } }, put: { tags: ['Shifts'], summary: 'Replace a shift', parameters: [id], requestBody: { required: true, content: { 'application/json': { schema: shift } } }, responses: { '204': { description: 'Shift updated' }, ...basicResponses } }, delete: { tags: ['Shifts'], summary: 'Delete a shift', parameters: [id], responses: { '204': { description: 'Shift deleted' }, ...basicResponses } } },
