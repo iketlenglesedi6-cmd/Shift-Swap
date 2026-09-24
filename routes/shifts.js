@@ -2,8 +2,10 @@ const express = require('express')
 const { ObjectId } = require('mongodb')
 const database = require('../database')
 const { validateShift } = require('../utils/validation')
+const { requireAuth } = require('../utils/auth')
 
 const router = express.Router()
+router.use(requireAuth)
 const collection = () => database.getDb().collection('shifts')
 
 function validId(id, response) {

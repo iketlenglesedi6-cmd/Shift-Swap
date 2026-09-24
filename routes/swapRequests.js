@@ -2,8 +2,10 @@ const express = require('express')
 const { ObjectId } = require('mongodb')
 const database = require('../database')
 const { validateSwap } = require('../utils/validation')
+const { requireAuth } = require('../utils/auth')
 
 const router = express.Router()
+router.use(requireAuth)
 const swaps = () => database.getDb().collection('swapRequests')
 const shifts = () => database.getDb().collection('shifts')
 

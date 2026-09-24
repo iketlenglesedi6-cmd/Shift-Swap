@@ -14,6 +14,11 @@ async function initDb() {
   client = new MongoClient(MONGODB_URI, { serverSelectionTimeoutMS: 30000 })
   await client.connect()
   db = client.db(MONGODB_DATABASE)
+  await Promise.all([
+    db.collection('users').createIndex({ email: 1 }, { unique: true }),
+    db.collection('users').createIndex({ githubId: 1 }, { unique: true, sparse: true }),
+    db.collection('sessions').createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 })
+  ])
   console.log(`Connected to MongoDB database: ${MONGODB_DATABASE}`)
   return db
 }
